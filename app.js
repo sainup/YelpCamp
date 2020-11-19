@@ -178,7 +178,8 @@ app.use((err, req, res, next) => {
 
 
 //configuring port for server
-app.listen(3002, () => {
-    console.log("Serviing on port 3002")
+const port = process.env.PORT || 3002;
+app.listen(port, () => {
+    console.log("Serviing on port " + port)
 })
 

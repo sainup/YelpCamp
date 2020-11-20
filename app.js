@@ -1,16 +1,20 @@
-if(process.env.NODE_ENV !== "production"){
+
+
+if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
-console.log(process.env.SECRET)
+console.log(process.env.NODE_ENV)
+
+
+
+
 //Importing modules
 const express = require('express');
 const mongoose = require('mongoose')
 const path = require('path')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override');
-const catchAsync = require('./utils/catchAsync')
-const ExpressErorr = require('./utils/ExpressError')
 const campgroundsRoutes = require('./routes/campgrounds')
 const reviewsRoutes = require('./routes/reviews')
 const userRoutes = require('./routes/users')
@@ -23,12 +27,12 @@ const User = require('./models/user')
 const mongoSanitize = require('express-mongo-sanitize')
 const helmet = require('helmet')
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp'
-// const dbUrl = process.env.DB_URL
-
 const MongoDBStore = require('connect-mongo')(session);
 
+// const dbUrl = process.env.DB_URL
 
-// mongodb://localhost:27017/yelp-camp'
+
+
 //configuring database
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
@@ -101,12 +105,12 @@ app.use(
 const secret = process.env.SECRET || 'thisshouldbeabettersecret';
 
 const store = new MongoDBStore({
-    url : dbUrl,
+    url: dbUrl,
     secret,
-    touchAfter  :  24 * 60 * 60
+    touchAfter: 24 * 60 * 60
 });
 
-store.on('error',function(e){
+store.on('error', function (e) {
     console.log("SESSION STORE ERROR")
 })
 const sessionConfig = {

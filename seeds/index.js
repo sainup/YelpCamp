@@ -1,5 +1,5 @@
 
-
+//imports
 const mongoose = require('mongoose');
 const cities = require('./cities');
 const { places, descriptors } = require('./seedHelpers')
@@ -22,8 +22,12 @@ mongoose.connect('mongodb://localhost:27017/yelp-camp', {
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
 const seedDb = async () => {
+    //deletes all the campground from database
     await Campground.deleteMany({});
+
+    
     for (let i = 0; i < 300; i++) {
+        //randomly puts price 
         const price = Math.floor(Math.random() * 20) + 10;
         const random1000 = Math.floor(Math.random() * 1000);
         const camp = new Campground({

@@ -1,6 +1,8 @@
+//imports
 const BaseJoi = require('joi')
 const sanitizeHtml = require('sanitize-html');
 
+//custom extension for JOI to escape HTML elements
 const extension = (joi) => ({
     type: 'string',
     base: joi.string(),
@@ -21,20 +23,15 @@ const extension = (joi) => ({
     }
 });
 
-
+//adds the extension to baseJoi
 const Joi = BaseJoi.extend(extension)
+//Joi schema for campgrounds
 module.exports.campgroundSchema = Joi.object({
     campground : Joi.object(
         {
             title : Joi.string().required().escapeHTML(),
             price: Joi.number().required().min(0),
             location : Joi.string().required().escapeHTML(),
-            // images : [{
-            //     url : Joi.string().required(),
-            //     filename :  Joi.string().required()
-            // }
-                
-            // ] ,
             description: Joi.string().required().escapeHTML(),
            
 
@@ -43,6 +40,7 @@ module.exports.campgroundSchema = Joi.object({
     deleteImages : Joi.array()
 })
 
+//Joi schema for reviews
 module.exports.reviewSchema = Joi.object({
     review : Joi.object(
         {

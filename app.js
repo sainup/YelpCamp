@@ -28,7 +28,8 @@ const mongoSanitize = require('express-mongo-sanitize')
 const helmet = require('helmet')
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp'
 const MongoDBStore = require('connect-mongo')(session);
-
+const { connectSrcUrls, scriptSrcUrls, styleSrcUrls, fontSrcUrls } = require('./helmetConfig')
+const secret = process.env.SECRET || 'thisshouldbeabettersecret';
 // const dbUrl = process.env.DB_URL
 
 
@@ -50,37 +51,13 @@ mongoose.connect(dbUrl, {
 
 
 //Using app configuration
+//for urlencoded inputs
 app.use(express.urlencoded({ extended: true }))
+//for PUT , PATCH  and DELETE method to work on form
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')))
+//helps securing by setting various HTTP headers
 app.use(helmet());
-app.use(mongoSanitize({
-    replaceWith: '_'
-}))
-
-const scriptSrcUrls = [
-    "https://stackpath.bootstrapcdn.com/",
-    "https://api.tiles.mapbox.com/",
-    "https://api.mapbox.com/",
-    "https://kit.fontawesome.com/",
-    "https://cdnjs.cloudflare.com/",
-    "https://cdn.jsdelivr.net",
-];
-const styleSrcUrls = [
-    "https://kit-free.fontawesome.com/",
-    "https://stackpath.bootstrapcdn.com/",
-    "https://api.mapbox.com/",
-    "https://api.tiles.mapbox.com/",
-    "https://fonts.googleapis.com/",
-    "https://use.fontawesome.com/",
-];
-const connectSrcUrls = [
-    "https://api.mapbox.com/",
-    "https://a.tiles.mapbox.com/",
-    "https://b.tiles.mapbox.com/",
-    "https://events.mapbox.com/",
-];
-const fontSrcUrls = [];
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
@@ -102,8 +79,13 @@ app.use(
     })
 );
 
-const secret = process.env.SECRET || 'thisshouldbeabettersecret';
+//santizes inputs against query selector injections
+app.use(mongoSanitize({
+    replaceWith: '_'
+}))
 
+
+//Setting session to be stored in mongoDB
 const store = new MongoDBStore({
     url: dbUrl,
     secret,
@@ -113,6 +95,8 @@ const store = new MongoDBStore({
 store.on('error', function (e) {
     console.log("SESSION STORE ERROR")
 })
+
+//session config
 const sessionConfig = {
     store,
     name: 'session',
@@ -129,13 +113,13 @@ const sessionConfig = {
 //session
 app.use(session(sessionConfig))
 
+//flash
 app.use(flash());
 
 //Configuring passport
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -161,7 +145,7 @@ app.use('/campgrounds/:id/reviews', reviewsRoutes)
 app.use('/', userRoutes)
 
 
-
+//index route
 app.get('/', (req, res) => {
     res.render('home')
 })

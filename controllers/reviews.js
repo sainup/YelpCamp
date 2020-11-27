@@ -23,7 +23,18 @@ module.exports.createReview = async (req, res, next) => {
     res.redirect(`/campgrounds/${campground.id}`);
 
 }
+module.exports.editReview = async (req,res , next) =>{
 
+    const { id,reviewId } = req.params;
+    const { body , rating } = req.body.review;
+
+    const review =  await Review.findByIdAndUpdate(reviewId,{body,rating});
+  
+    req.flash('success','Review was updated!');
+    res.redirect(`/campgrounds/${id}`)
+
+
+}
 //deletes reviews
 module.exports.deleteReview = async (req, res, next) => {
 

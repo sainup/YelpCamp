@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/css/index.css">
+
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">YelpCamp</a>
@@ -13,14 +15,35 @@
         <a class="nav-link" href="/campgrounds/new">New Campground</a>
       </div>
 
+     
+  
+      
+
       <div class="navbar-nav ml-auto">
 
-        <% if(!currentUser){ %> 
+        <% if(!currentUser){ %>
         <a class="nav-link" href="/login">Log in</a>
         <a class="nav-link" href="/register">Register</a>
-        <% } else{ %> 
-        <a class="nav-link" href="/Logout">Log out</a>
-        <% } %> 
+        <% } else{ %>
+          <div class="nav-item dropdown">
+            <a class="nav-link dropdown text-capitalize" data-offset="50,30" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+              Hello , <%= currentUser.firstName %>
+            </a>
+
+            
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-dark " aria-labelledby="navbarDropdown">  
+             
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/accounts">Manage Account</a></li>
+              <li><a class="dropdown-item" href="/Logout">Logout</a></li>
+              
+            </ul>
+          </div>
+
+         
+
+
+        <% } %>
       </div>
 
     </div>

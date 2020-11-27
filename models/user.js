@@ -10,6 +10,14 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         unique: true
+    },
+    firstName : {
+        type : String,
+        required : true
+    },
+    lastName : {
+        type : String,
+        required : true
     }
 });
 //plugin passport for UserSchema

@@ -1,0 +1,69 @@
+<% layout('layouts/boilerplate')%>
+
+
+<div class="container">
+
+    <h1 class="text-center">Account Settings</h1>
+
+
+
+    <form action="/accounts?_method=PATCH" method="POST" class="mb-3">
+
+        <div class="mb-3">
+            <label class="form-label" for="firstName">First Name</label>
+            <input class="form-control" type="text" id="firstName" name="firstName"
+                value="<%= currentUser.firstName %> " required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="lastName">Last Name</label>
+            <input class="form-control" type="text" id="lastName" name="lastName" value="<%= currentUser.lastName %> "
+                required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" type="text" id="username" name="username" value="<%= currentUser.username %>"
+                required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+        <button class="btn btn-success btn-block">Save</button>
+    </form>
+
+
+    <h2 class="text-center mt-5">Change Password</h2>
+    <form action="/changePassword" method="POST">
+
+        <div class="mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" type="password" id="password" name="password" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="newPassword">New Password</label>
+            <input class="form-control" type="password" id="newPassword" name="newPassword" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+
+
+        <button class="btn btn-success btn-block">Save</button>
+    </form>
+
+</div>
+
+
+
+</div>

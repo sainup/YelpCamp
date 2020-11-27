@@ -33,6 +33,7 @@ const secret = process.env.SECRET || 'thisshouldbeabettersecret';
 // const dbUrl = process.env.DB_URL
 
 
+console.log("IS IT WROKING");
 
 //configuring database
 mongoose.connect(dbUrl, {
@@ -73,6 +74,8 @@ app.use(
                 "data:",
                 "https://res.cloudinary.com/sainup/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
                 "https://images.unsplash.com/",
+                "https://www.danob.com.bd/wp-content/uploads/2020/06/nophotofound.png",
+                
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
         },
@@ -133,6 +136,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.use((req, res, next) => {
     console.log(req.session);
     res.locals.currentUser = req.user;
+   console.log("USER REQUESTED" , req.user);
     res.locals.success = req.flash('success');
     res.locals.danger = req.flash('danger');
     res.locals.error = req.flash('error');

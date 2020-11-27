@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate')%>
 <link rel="stylesheet" href="/css/stars.css">
-
+Show something
 <div class="row">
   <div class="col-3"> <div id="map" style="width: 100%; height: 250px;"> </div></div>
  
@@ -97,7 +97,7 @@
           </p>
           <h5 class="card-subtitle mb-2 text-muted">By : <%= review.author.username.toUpperCase() %> </h5>
           <p class="card-text">Review : <%= review.body %> </p>
-
+        
           <% if(currentUser && review.author.equals(currentUser._id)) { %>
           <form action="/campgrounds/<%= campground._id %>/reviews/<%=review._id %>?_method=DELETE " method="POST">
             <button class="btn btn-sm btn-danger "> DELETE</button>

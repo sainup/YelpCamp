@@ -3,17 +3,17 @@ const User = require('../models/user')
 
 
 //renders registration form
-module.exports.registerForm = (req, res) => {res.render('users/register')}
+module.exports.registerForm = (req, res) => { res.render('users/register') }
 
 //creates user
 module.exports.createUser = async (req, res) => {
 
     try {
-        const { email, username, password } = req.body;
+        const { email, username, password , firstName , lastName } = req.body;
 
 
         const user = new User({
-            email, username
+            email, username , firstName , lastName
         });
 
         //registers the user
@@ -36,7 +36,7 @@ module.exports.createUser = async (req, res) => {
 }
 
 //renders login form
-module.exports.loginForm = (req, res) => {res.render('users/login')}
+module.exports.loginForm = (req, res) => { res.render('users/login') }
 
 //logs the user in
 module.exports.login = async (req, res) => {
@@ -55,3 +55,49 @@ module.exports.logout = (req, res) => {
     req.flash('success', 'Logged Out!')
     res.redirect('/campgrounds');
 }
+
+module.exports.accountForm = (req, res) => { res.render('users/accounts') }
+
+module.exports.patchAccount = async(req,res) =>{
+    try{
+        const { firstName , lastName , username } = req.body
+        
+        const user = await User.findByIdAndUpdate(req.user._id, { firstName , lastName , username})
+        console.log("NEWW USER SSSSSSS" , user)
+        req.login(user,err =>{
+            if(err) return next(err);
+            req.flash('success', "Account updated")
+            res.redirect('/accounts')
+        })
+       
+    }catch(e){
+        req.flash('error', e.message);
+        res.redirect('/accounts')
+    }
+
+}
+
+module.exports.changePassword = async (req, res) => {
+    const { newPassword, password } = req.body
+    const user = await User.findById(req.user._id);
+
+    await user.changePassword(password, newPassword, (err) => {
+
+        if (err) {
+            console.log(err);
+            req.flash('error', 'Incorrect password');
+            return res.redirect('/accounts')
+        };
+
+        if (password === newPassword) {
+            req.flash('error', 'New password can not be same as old password!');
+            return res.redirect('/accounts')
+        }
+
+
+
+        res.redirect('/campgrounds')
+    })
+
+}
+

@@ -10,9 +10,29 @@ const geoCoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 //finds and renders  all campgrounds
 module.exports.index = async (req, res) => {
-    const campgrounds = await Campground.find({})
+    let {search,scrollCount} = req.query
+    console.log(req.query)
+  
+    let campgrounds = await Campground.find({}).limit(50);
+     console.log("SEARCHHHHHHHHHHHHH",search)
+    if(search){
+        
+            campgrounds = await Campground.find({'title' : {$regex : new RegExp(search,"i")}});
+            console.log("hello world");
+            if(!campgrounds.length){
+                console.log("Not found",campgrounds)
+                req.flash('error',"Can not find any campgrounds.")
+                res.redirect('/campgrounds')
+            }
+            return res.render('campgrounds/index', { campgrounds});
+       
+       
+    }else{
+       return res.render('campgrounds/index', {campgrounds})
+    }
+  
+
     
-    res.render('campgrounds/index', { campgrounds });
 };
 
 //renders form for adding campground

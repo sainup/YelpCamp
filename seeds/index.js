@@ -1,4 +1,8 @@
 
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 //imports
 const mongoose = require('mongoose');
 const cities = require('./cities');
@@ -7,7 +11,7 @@ const Campground = require('../models/campground')
 
 
 //configuring database
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
@@ -31,7 +35,7 @@ const seedDb = async () => {
         const price = Math.floor(Math.random() * 20) + 10;
         const random1000 = Math.floor(Math.random() * 1000);
         const camp = new Campground({
-            author: '5fae983cf7b1131c705c46cd',
+            author: '5fb67f18e651ef155eb3915c',
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             geometry : {
                 type : 'Point',

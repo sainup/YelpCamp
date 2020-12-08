@@ -1,0 +1,40 @@
+<% layout('layouts/boilerplate')%>
+
+<div class="container">
+    <div class="row">
+        <form action="/contact" method="POST" class="col align-self-center">
+
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input class="form-control" id="firstName" name="firstName" type="text"
+                    value="<%= (currentUser ? currentUser.firstName : '') %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input class="form-control" id="lastName" name="lastName" type="text"
+                    value="<%= (currentUser ? currentUser.lastName : '') %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input class="form-control" id="email" name="email" type="email"
+                    value="<%= (currentUser ? currentUser.email : '') %>" required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="emailBody">Write Something : </label>
+                <textarea class="form-control" name="emailBody" id="emailBody" cols="30" rows="3" required></textarea>
+            </div>
+
+            <button class="btn btn-primary">Submit</button>
+            <a class="btn btn-danger" href="/campgrounds">Cancel</a>
+
+    </div>
+
+    </form>
+</div>
+
+
+
+</div>

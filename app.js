@@ -18,6 +18,7 @@ const methodOverride = require('method-override');
 const campgroundsRoutes = require('./routes/campgrounds')
 const reviewsRoutes = require('./routes/reviews')
 const userRoutes = require('./routes/users')
+const contactRoutes = require('./routes/contacts')
 const app = express();
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
@@ -135,6 +136,10 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.use((req, res, next) => {
     console.log(req.session);
+    if(!['/login','/'].includes(req.originalUrl)){
+        req.session.returnTo = req.originalUrl;
+    }
+    
     res.locals.currentUser = req.user;
    console.log("USER REQUESTED" , req.user);
     res.locals.success = req.flash('success');
@@ -147,6 +152,7 @@ app.use((req, res, next) => {
 app.use('/campgrounds', campgroundsRoutes)
 app.use('/campgrounds/:id/reviews', reviewsRoutes)
 app.use('/', userRoutes)
+app.use('/',contactRoutes)
 
 
 //index route

@@ -1,26 +1,28 @@
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <link rel="stylesheet" href="/css/index.css">
+
 <% layout('layouts/boilerplate')%>
 
 
 <div class="mb-2" id="map" style="width: 100%; height: 500px"></div>
 
-<form  action="/campgrounds" class="validated-form" novalidate>
-<input type="text" name="search" required>
+
+<form action="/campgrounds">
+<input type="text" name="search" placeholder="Find something?">
 <button>Search</button>
 </form>
 
 
 
-  
 
 <div class="container" id="content">
-    <h1 class="mb-3">All Campgrounds</h1>
-    <div class="row">
+    <h1 class="mb-3 ">All Campgrounds</h1>
+    <div class="row" id="rowContent" >
 
         <% for (let campground of campgrounds){%>
-        <div class="col-sm-6 col-md-4 col-xl-3 mb-2">
-            <div class="card mb-2" style="height: 100%;">
-
+        <div class="col-sm-6  col-xl-4 mb-3 article" id="article">
+            <div class="card mb-2" >
+    
                 <div class="col">
                     <% if(campground.images.length){ %>
                     <img class="img-fluid" alt=""
@@ -30,30 +32,30 @@
                         src="https://www.danob.com.bd/wp-content/uploads/2020/06/nophotofound.png">
                     <% } %>
                 </div>
-
+    
                 <div class="card-body">
                     <h5 class="card-title">
                         <%= campground.title %>
-
+    
                     </h5>
-
+    
                     <p class="card-text"><%= campground.description %> </p>
                     <p class="card-text">
                         <small class="text-muted"><%= campground.location %> </small>
                     </p>
-
-                    <a class="btn btn-primary" href="/campgrounds/<%=campground.id  %> ">View <%=  campground.title%>
+    
+                    <a class="btn btn-primary text-center" href="/campgrounds/<%=campground.id  %> ">View <%=  campground.title%>
                     </a>
                 </div>
-
-
-
+    
+    
+    
             </div>
         </div>
         <% }%>
-
-
-    </div>
+    
+      
+    </div> 
 
 </div>
 
@@ -62,6 +64,9 @@
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN %>';
     const campgrounds = { features: <%- JSON.stringify(campgrounds) %> };
+  
 </script>
 
+<script src="/js/ejs.min.js"></script>
 <script src="/js/clustermap.js"></script>
+

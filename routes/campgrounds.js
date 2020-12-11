@@ -16,6 +16,9 @@ router.route('/')
     .get(catchAsync(campgrounds.index))
     .post(isLoggedIn, upload.array('image'), validateCampground, catchAsync(campgrounds.createCampground));
 
+
+
+
 //routes to new campground form 
 router.get('/new', isLoggedIn, campgrounds.newForm)
 

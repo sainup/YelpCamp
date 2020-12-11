@@ -53,7 +53,7 @@ mongoose.connect(dbUrl, {
 
 
 //Using app configuration
-//for urlencoded inputs
+//for URLencoded inputs
 app.use(express.urlencoded({ extended: true }))
 //for PUT , PATCH  and DELETE method to work on form
 app.use(methodOverride('_method'));
@@ -134,14 +134,12 @@ app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
+//Setting locals to be used anywhere
 app.use((req, res, next) => {
-    console.log(req.session);
     if(!['/login','/'].includes(req.originalUrl)){
         req.session.returnTo = req.originalUrl;
     }
-    
     res.locals.currentUser = req.user;
-   console.log("USER REQUESTED" , req.user);
     res.locals.success = req.flash('success');
     res.locals.danger = req.flash('danger');
     res.locals.error = req.flash('error');

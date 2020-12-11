@@ -10,30 +10,32 @@ const geoCoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 //finds and renders  all campgrounds
 module.exports.index = async (req, res) => {
-    let {search,scrollCount} = req.query
-    console.log(req.query)
-  
-    let campgrounds = await Campground.find({}).limit(50);
-     console.log("SEARCHHHHHHHHHHHHH",search)
-    if(search){
-        
-            campgrounds = await Campground.find({'title' : {$regex : new RegExp(search,"i")}});
-            console.log("hello world");
-            if(!campgrounds.length){
-                console.log("Not found",campgrounds)
-                req.flash('error',"Can not find any campgrounds.")
-                res.redirect('/campgrounds')
-            }
-            return res.render('campgrounds/index', { campgrounds});
-       
-       
-    }else{
-       return res.render('campgrounds/index', {campgrounds})
-    }
-  
 
-    
+
+    let { search } = req.query
+
+    let campgrounds = await Campground.find({}).limit(50);
+
+    //if search query exists
+    if (search) {
+
+        //finds campground based on the search query
+        campgrounds = await Campground.find({ 'title': { $regex: new RegExp(search, "i") } });
+
+        //if campgrounds doesn't exist throws flash error and redirect back to main page
+        if (!campgrounds.length) {
+            req.flash('error', "Can not find any campgrounds.")
+            return res.redirect('/campgrounds')
+        }
+
+        return res.render('campgrounds/index', { campgrounds });
+
+    }
+
+    return res.render('campgrounds/index', { campgrounds })
+
 };
+
 
 //renders form for adding campground
 module.exports.newForm = (req, res) => {
@@ -79,13 +81,13 @@ module.exports.showCampground = async (req, res) => {
 
     //finds campground and populates with the data of who created and the who wrote the review
     const campground = await Campground.findById(id)
-    .populate('author')
-    .populate({
-        path: 'reviews',
-        populate: {
-            path: 'author'
-        }
-    });
+        .populate('author')
+        .populate({
+            path: 'reviews',
+            populate: {
+                path: 'author'
+            }
+        });
 
     //sends error if campground doesn't exists and redirects
     if (!campground) {

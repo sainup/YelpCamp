@@ -1,13 +1,27 @@
-.img-fluid{
-    height: 15vw;
-    object-fit: cover;
+img{
+    height: 100%;
+    width: 100%;
 }
 
+#content h1{
+    text-align: center;
+  
+}
 
+#content .img-fluid{
+  
+    height: 300px;
+}
 @media all and (min-width: 992px) {
 	.navbar .nav-item .dropdown-menu{ display: none; }
 	.navbar .nav-item:hover .nav-link{ color: #fff;  }
 	.navbar .nav-item:hover .dropdown-menu{ display: block; }
     .navbar .nav-item .dropdown-menu{ margin-top:0; }
     .navbar .nav-item .dropdown-menu :hover {color: #1e88e5;}
+}
+
+@media only screen and (max-width: 692px) {
+#content .img-fluid{
+    height: auto;
+}
 }

@@ -9,11 +9,11 @@ module.exports.registerForm = (req, res) => { res.render('users/register') }
 module.exports.createUser = async (req, res) => {
 
     try {
-        const { email, username, password , firstName , lastName } = req.body;
+        const { email, username, password, firstName, lastName } = req.body;
 
 
         const user = new User({
-            email, username , firstName , lastName
+            email, username, firstName, lastName
         });
 
         //registers the user
@@ -56,31 +56,39 @@ module.exports.logout = (req, res) => {
     res.redirect('/campgrounds');
 }
 
+//renders account form
 module.exports.accountForm = (req, res) => { res.render('users/accounts') }
 
-module.exports.patchAccount = async(req,res) =>{
-    try{
-        const { firstName , lastName , username } = req.body
-        
-        const user = await User.findByIdAndUpdate(req.user._id, { firstName , lastName , username})
-        console.log("NEWW USER SSSSSSS" , user)
-        req.login(user,err =>{
-            if(err) return next(err);
+
+//finds user by id and updates the detail if succesful else throws error
+module.exports.patchAccount = async (req, res) => {
+    try {
+        const { firstName, lastName, username } = req.body
+
+        //finds the user by id and updates the details
+        const user = await User.findByIdAndUpdate(req.user._id, { firstName, lastName, username })
+        req.login(user, err => {
+            if (err) return next(err);
             req.flash('success', "Account updated")
             res.redirect('/accounts')
         })
-       
-    }catch(e){
+
+    } catch (e) {
         req.flash('error', e.message);
         res.redirect('/accounts')
     }
 
 }
 
+//changes passwords
 module.exports.changePassword = async (req, res) => {
+
     const { newPassword, password } = req.body
+
+    //finds user by id
     const user = await User.findById(req.user._id);
 
+    //changes password if user exist else throws error
     await user.changePassword(password, newPassword, (err) => {
 
         if (err) {
@@ -88,14 +96,10 @@ module.exports.changePassword = async (req, res) => {
             req.flash('error', 'Incorrect password');
             return res.redirect('/accounts')
         };
-
         if (password === newPassword) {
             req.flash('error', 'New password can not be same as old password!');
             return res.redirect('/accounts')
         }
-
-
-
         res.redirect('/campgrounds')
     })
 

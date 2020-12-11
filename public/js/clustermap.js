@@ -1,6 +1,7 @@
 
 mapboxgl.accessToken = mapToken;
-console.log("campgrounds normal",campgrounds);
+
+
 
 
 const map = new mapboxgl.Map({

@@ -23,6 +23,7 @@
     "express-mongo-sanitize": "^2.0.0",
     "express-session": "^1.17.1",
     "helmet": "^4.2.0",
+    "infinite-scroll": "^3.0.6",
     "joi": "^17.3.0",
     "method-override": "^3.0.0",
     "mongoose": "^5.10.13",

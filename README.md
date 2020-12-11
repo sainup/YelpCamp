@@ -8,16 +8,17 @@ YelpCamp is a full stack application.This project was part of Colt Steele's The 
 <h2>Features : </h2>
 <ul>
 
-<li>Full CRUD Operations for Users, Campgrounds and Reviews.</li>
-<li>Authentication
-<ul>
-<li>Login with username and password
+<li>
+ Full CRUD Operations for Users, Campgrounds and Reviews.
 <ul>
 <li>Create,edit and delete posts, campgrounds and users.</li>
 <li>Search campgrounds based on names</li>
 <li>Change Username or password</li>
 </ul>
 </li>
+<li>Authentication
+<ul>
+<li>Login with username and password</li>
 </ul>
 </li>
 <li>
